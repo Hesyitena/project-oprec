@@ -1,6 +1,37 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Datasets and training artifacts
 dataset/
 runs/
 runs.zip
-.venv/
-__pycache__/
 *.pt
+*.onnx
+*.engine
+*.torchscript
+
+# Environment variables & secrets (jangan sampai API key bocor)
+.env
+.env.*
+*.local
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# IDE & Editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db

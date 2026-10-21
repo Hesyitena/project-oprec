@@ -28,7 +28,8 @@ Menjalankan (ganti API_KEY_KAMU dengan API key-mu):
 
 Pakai Google Colab? Gunakan train_colab.ipynb.
 
-Kode ini sengaja dibuat sangat dasar. Silakan kembangkan sendiri.
+Kode ini sengaja dibuat sangat dasar dan WAJIB kamu kembangkan lagi.
+Contoh arah pengembangan ada di README dan guidebook (bagian Pengembangan kode).
 """
 
 import os
