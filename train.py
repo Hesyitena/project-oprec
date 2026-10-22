@@ -1,21 +1,21 @@
 """
-Kode training dasar - Final Project Oprec PENSHIP
+Baseline training script - PENSHIP Recruitment Final Project
 
-Alur:
-  1. Download dataset dari project Roboflow peserta (format YOLOv8).
-     Apabila folder dataset/ sudah berisi data.yaml, download dilewati.
-  2. Training YOLOv8.
-  3. Evaluasi model terbaik (best.pt) di split validation.
+Flow:
+  1. Download the dataset from the participant's Roboflow project (YOLOv8 format).
+     If dataset/ already contains data.yaml, the download is skipped.
+  2. Train YOLOv8.
+  3. Evaluate the best model (best.pt) on the validation split.
 
-Persiapan:
-  1. Isi ROBOFLOW_WORKSPACE, ROBOFLOW_PROJECT, dan ROBOFLOW_VERSION di bagian
-     KONFIGURASI. Ketiganya tertera pada URL dataset:
+Setup:
+  1. Fill in ROBOFLOW_WORKSPACE, ROBOFLOW_PROJECT, and ROBOFLOW_VERSION in the
+     CONFIGURATION section. All three appear in the dataset URL:
          app.roboflow.com/<workspace>/<project>/<version>
-     atau pada potongan kode di menu Download Dataset -> format YOLOv8 -> Show download code.
-  2. Set API key Roboflow sebagai environment variable. API key DILARANG
-     dituliskan di file ini, karena file ini ikut dikumpulkan.
+     or in the snippet under Download Dataset -> YOLOv8 format -> Show download code.
+  2. Set the Roboflow API key as an environment variable. Do NOT write the API
+     key in this file, because this file is part of the submission.
 
-Menjalankan (ganti API_KEY_ROBOFLOW dengan API key Roboflow peserta):
+Run (replace API_KEY_ROBOFLOW with your Roboflow API key):
   Windows (PowerShell):
       pip install -r requirements.txt
       $env:ROBOFLOW_API_KEY="API_KEY_ROBOFLOW"
@@ -26,10 +26,10 @@ Menjalankan (ganti API_KEY_ROBOFLOW dengan API key Roboflow peserta):
       export ROBOFLOW_API_KEY="API_KEY_ROBOFLOW"
       python train.py
 
-Untuk training di Google Colab, gunakan train_colab.ipynb.
+For training on Google Colab, use train_colab.ipynb.
 
-Kode ini sengaja dibuat sangat dasar dan WAJIB dikembangkan oleh peserta.
-Contoh arah pengembangan ada di README dan guidebook (bagian Pengembangan kode).
+This code is intentionally minimal and MUST be extended by each participant.
+See the README and the guidebook (Pengembangan Kode section) for ideas.
 """
 
 import os
@@ -37,36 +37,36 @@ from pathlib import Path
 
 from ultralytics import YOLO
 
-# ===================== KONFIGURASI =====================
+# ==================== CONFIGURATION ====================
 # Dataset (Roboflow)
-ROBOFLOW_WORKSPACE = "nama-workspace"  # sesuaikan dengan URL dataset
-ROBOFLOW_PROJECT = "nama-project"      # sesuaikan dengan URL dataset
-ROBOFLOW_VERSION = 1                   # nomor versi dataset di Roboflow
-DATASET_DIR = "dataset"                # folder tujuan download
+ROBOFLOW_WORKSPACE = "workspace-name"  # from the dataset URL
+ROBOFLOW_PROJECT = "project-name"      # from the dataset URL
+ROBOFLOW_VERSION = 1                   # dataset version number on Roboflow
+DATASET_DIR = "dataset"                # download destination folder
 
 # Training
-MODEL = "yolov8n.pt"  # pilihan: yolov8n.pt atau yolov8s.pt
+MODEL = "yolov8n.pt"  # options: yolov8n.pt or yolov8s.pt
 EPOCHS = 50
-IMGSZ = 640           # wajib 640, jangan diubah
-BATCH = 16            # turunkan ke 8 atau 4 apabila muncul error out of memory
+IMGSZ = 640           # must stay 640, do not change
+BATCH = 16            # lower to 8 or 4 on out-of-memory errors
 SEED = 0
 # =======================================================
 
 
 def get_dataset() -> Path:
-    """Kembalikan path data.yaml. Download dari Roboflow apabila belum ada."""
+    """Return the path to data.yaml, downloading from Roboflow if it is missing."""
     data_yaml = Path(DATASET_DIR) / "data.yaml"
     if data_yaml.exists():
-        print(f"Dataset sudah ada, download dilewati: {data_yaml}")
+        print(f"Dataset already exists, skipping download: {data_yaml}")
         return data_yaml
 
     api_key = os.environ.get("ROBOFLOW_API_KEY")
     if not api_key:
         raise RuntimeError(
-            "ROBOFLOW_API_KEY belum di-set. Lihat bagian 'Menjalankan' di atas file ini."
+            "ROBOFLOW_API_KEY is not set. See the 'Run' section at the top of this file."
         )
 
-    from roboflow import Roboflow  # di-import di sini: tidak wajib apabila dataset sudah ada
+    from roboflow import Roboflow  # imported here: not needed if the dataset already exists
 
     rf = Roboflow(api_key=api_key)
     version = rf.workspace(ROBOFLOW_WORKSPACE).project(ROBOFLOW_PROJECT).version(ROBOFLOW_VERSION)
@@ -74,17 +74,17 @@ def get_dataset() -> Path:
 
     data_yaml = Path(dataset.location) / "data.yaml"
     if not data_yaml.exists():
-        raise FileNotFoundError(f"data.yaml tidak ditemukan setelah download: {data_yaml}")
+        raise FileNotFoundError(f"data.yaml not found after download: {data_yaml}")
     return data_yaml
 
 
 def main():
     data_path = get_dataset()
 
-    # Model pretrained (bobot di-download otomatis saat pertama kali dipakai)
+    # Pretrained model (weights are downloaded automatically on first use)
     model = YOLO(MODEL)
 
-    # Training. GPU digunakan otomatis apabila tersedia; jika tidak, CPU yang digunakan.
+    # Training. Uses the GPU automatically if available, otherwise the CPU.
     model.train(
         data=str(data_path),
         epochs=EPOCHS,
@@ -93,17 +93,17 @@ def main():
         seed=SEED,
     )
 
-    # Lokasi hasil training (runs/detect/train, train2, ...)
+    # Training output folder (runs/detect/train, train2, ...)
     save_dir = Path(model.trainer.save_dir)
     best_path = save_dir / "weights" / "best.pt"
-    print(f"\nModel terbaik tersimpan di: {best_path}")
+    print(f"\nBest model saved to: {best_path}")
 
-    # Evaluasi model terbaik di split validation
+    # Evaluate the best model on the validation split
     best_model = YOLO(str(best_path))
     metrics = best_model.val(data=str(data_path), imgsz=IMGSZ)
     print(f"mAP50-95: {metrics.box.map:.3f} | mAP50: {metrics.box.map50:.3f}")
 
 
-# Guard ini wajib, terutama di Windows (dataloader memakai multiprocessing)
+# Required guard, especially on Windows (the dataloader uses multiprocessing)
 if __name__ == "__main__":
     main()

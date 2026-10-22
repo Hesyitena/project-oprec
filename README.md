@@ -72,11 +72,11 @@ Sebelum training dijalankan, konfigurasi dataset Roboflow disiapkan dengan langk
 2. Catat workspace, project, dan nomor version dari URL dataset (`app.roboflow.com/<workspace>/<project>/<version>`) atau dari menu **Download Dataset → YOLOv8 → Show download code**.
 3. Ambil **Roboflow API Key** dari halaman [https://app.roboflow.com/settings/api](https://app.roboflow.com/settings/api).
 
-Nilai variabel konfigurasi disesuaikan di [`train.py`](train.py) atau cell **4. Konfigurasi** di notebook:
+Nilai variabel konfigurasi disesuaikan di bagian `CONFIGURATION` pada [`train.py`](train.py) atau cell **4. Konfigurasi** di notebook:
 
 ```python
-ROBOFLOW_WORKSPACE = "nama-workspace"  # Nama workspace Roboflow
-ROBOFLOW_PROJECT   = "nama-project"    # Nama project Roboflow
+ROBOFLOW_WORKSPACE = "workspace-name"  # Nama workspace Roboflow
+ROBOFLOW_PROJECT   = "project-name"    # Nama project Roboflow
 ROBOFLOW_VERSION   = 1                 # Nomor versi dataset
 MODEL              = "yolov8n.pt"      # Pilihan: yolov8n.pt atau yolov8s.pt
 ```
