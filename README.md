@@ -178,7 +178,7 @@ Kode dasar ini sengaja dibuat sederhana dan wajib dikembangkan oleh peserta. Bat
 
 1. Seluruh pekerjaan dikerjakan dan dikumpulkan di repository peserta hasil **Use this template** (Public).
 2. Seluruh isi `README.md` di repository peserta diganti dengan isi [`TEMPLATE_LAPORAN.md`](TEMPLATE_LAPORAN.md), kemudian setiap bagiannya diisi. File `TEMPLATE_LAPORAN.md` boleh dihapus setelahnya.
-3. Repository wajib berisi kode yang telah dikembangkan, `best.pt`, dan folder `grafik/` (`results.png`, `results.csv`, `confusion_matrix.png`, `BoxPR_curve.png` dari `runs/detect/train/`). Pengunggahan melalui web menggunakan **Add file → Upload files** (maks. 25 MB per file).
+3. Repository wajib berisi kode yang telah dikembangkan (cukup salah satu: `train.py` beserta `requirements.txt`, atau `train_colab.ipynb`), `best.pt` yang disalin ke folder utama repository, dan folder `grafik/` (`results.png`, `results.csv`, `confusion_matrix.png`, `BoxPR_curve.png` dari `runs/detect/train/`). Folder `runs/` tidak diunggah. Pengunggahan melalui web menggunakan **Add file → Upload files** (maks. 25 MB per file).
 4. Video demo (30–60 detik) diunggah ke Google Drive dengan akses **Anyone with the link → Viewer**. Video tidak diunggah ke repository.
 5. Google Form pengumpulan (**[link, diisi panitia]**) diisi dengan link repository GitHub, link video demo, dan Project ID Roboflow.
 6. Repository tidak boleh diubah setelah Google Form terkirim.
