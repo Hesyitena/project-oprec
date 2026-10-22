@@ -8,6 +8,7 @@
 ## Link
 - Video demo (Google Drive): <link>
 - Project ID Roboflow: <workspace/project>, version <nomor>
+- Link Roboflow Universe: https://universe.roboflow.com/<workspace>/<project>
 
 ## Dataset
 - Jumlah foto asli: bottle ..., laptop ..., pencil ...
