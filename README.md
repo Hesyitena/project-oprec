@@ -7,7 +7,7 @@
 Repository ini berisi kode dasar untuk melatih model object detection **YOLOv8** yang mendeteksi 3 kelas objek: `bottle`, `laptop`, dan `pencil`.
 
 > [!IMPORTANT]
-> Kode ini sengaja dibuat **sangat dasar** sebagai titik awal. Peserta **wajib mengembangkan kode ini** (misalnya melalui tuning hyperparameter, augmentasi data, analisis hasil, atau penambahan skrip inferensi). Ketentuan lengkap tercantum pada **Guidebook Final Project Oprec PENSHIP**.
+> Kode ini sengaja dibuat **sangat dasar** sebagai titik awal. Peserta **wajib mengembangkan kode ini** (misalnya melalui tuning hyperparameter, augmentasi data, analisis hasil, atau penambahan skrip inferensi). Ketentuan lengkap tercantum pada **Guidebook Final Project Oprec PENSHIP** ([intip.in/PengumpulanProjectProgram](https://intip.in/PengumpulanProjectProgram)).
 
 ---
 
@@ -206,7 +206,7 @@ Pengunggahan melalui web menggunakan **Add file → Upload files** pada halaman 
 1. Lengkapi repository peserta sesuai struktur di atas dan pastikan visibilitasnya **Public**.
 2. Unggah video demo (30–60 detik) ke Google Drive dengan akses **Anyone with the link → Viewer**.
 3. Pastikan project Roboflow berstatus **Public**, lalu cantumkan Project ID (`workspace/project`), nomor version dataset, dan link project publik di README. Link project publik diperoleh dengan mengganti domain `app.roboflow.com` menjadi `universe.roboflow.com` pada URL project, sehingga formatnya `https://universe.roboflow.com/<workspace>/<project>`.
-4. Isi Google Form pengumpulan (**[link, diisi panitia]**) dengan link repository GitHub, link video demo, Project ID Roboflow, nomor version dataset, link project Roboflow publik, serta ukuran model yang digunakan (n/s).
+4. Isi Google Form pengumpulan ([forms.gle/P48CRmWXZo4xFzKNA](https://forms.gle/P48CRmWXZo4xFzKNA)) sebelum **Senin, 26 Oktober 2026, pukul 23.59 WIB** dengan link repository GitHub, link video demo, Project ID Roboflow, nomor version dataset, link project Roboflow publik, serta ukuran model yang digunakan (n/s).
 5. Repository tidak boleh diubah (commit atau upload) setelah Google Form terkirim.
 
-Ketentuan lengkap dan daftar periksa tercantum pada **Guidebook Final Project Oprec PENSHIP**.
+Ketentuan lengkap dan daftar periksa tercantum pada **Guidebook Final Project Oprec PENSHIP** ([intip.in/PengumpulanProjectProgram](https://intip.in/PengumpulanProjectProgram)).
