@@ -7,21 +7,21 @@
 Repository ini berisi kode dasar untuk melatih model object detection **YOLOv8** yang mendeteksi 3 kelas objek: `bottle`, `laptop`, dan `pencil`.
 
 > [!IMPORTANT]
-> Kode ini sengaja dibuat **sangat dasar** sebagai titik awal. Kamu **wajib mengembangkannya lagi** (misalnya melalui tuning hyperparameter, augmentasi data, analisis hasil, atau penambahan skrip inferensi). Detail aturan lengkap dapat dibaca pada **Guidebook Final Project Oprec PENSHIP**.
+> Kode ini sengaja dibuat **sangat dasar** sebagai titik awal. Peserta **wajib mengembangkan kode ini** (misalnya melalui tuning hyperparameter, augmentasi data, analisis hasil, atau penambahan skrip inferensi). Ketentuan lengkap tercantum pada **Guidebook Final Project Oprec PENSHIP**.
 
 ---
 
 ## Daftar Isi
 - [Pilihan Lingkungan Training](#pilihan-lingkungan-training)
 - [Struktur Proyek](#struktur-proyek)
-- [Download / Clone Repository](#download--clone-repository)
+- [Membuat Repository Peserta](#membuat-repository-peserta)
 - [Persiapan Konfigurasi Roboflow](#persiapan-konfigurasi-roboflow)
 - [Cara Menjalankan](#cara-menjalankan)
   - [Opsi A: Google Colab (Direkomendasikan)](#opsi-a-google-colab-direkomendasikan)
   - [Opsi B: Komputer Lokal (Windows / Linux / macOS)](#opsi-b-komputer-lokal-windows--linux--macos)
 - [Struktur Output Training](#struktur-output-training)
 - [Panduan Pengembangan Kode](#panduan-pengembangan-kode)
-- [Template Laporan Pengumpulan](#template-laporan-pengumpulan)
+- [Cara Pengumpulan](#cara-pengumpulan)
 
 ---
 
@@ -29,8 +29,8 @@ Repository ini berisi kode dasar untuk melatih model object detection **YOLOv8**
 
 | File | Lingkungan | Rekomendasi Penggunaan |
 | --- | --- | --- |
-| [`train_colab.ipynb`](train_colab.ipynb) | Google Colab | **Sangat disarankan** jika laptop tidak memiliki GPU NVIDIA atau spesifikasi terbatas. Tersedia free GPU T4. |
-| [`train.py`](train.py) + [`requirements.txt`](requirements.txt) | Laptop / PC Lokal | Cocok jika memiliki GPU NVIDIA mandiri dengan driver CUDA aktif. |
+| [`train_colab.ipynb`](train_colab.ipynb) | Google Colab | **Sangat disarankan** apabila laptop tidak memiliki GPU NVIDIA atau memiliki spesifikasi terbatas. Tersedia GPU T4 gratis. |
+| [`train.py`](train.py) + [`requirements.txt`](requirements.txt) | Laptop / PC Lokal | Digunakan apabila laptop memiliki GPU NVIDIA dengan driver yang terpasang. |
 
 ---
 
@@ -43,19 +43,19 @@ project-oprec/
 ├── requirements.txt    # Daftar dependensi Python utama (ultralytics, roboflow)
 ├── train.py            # Skrip training dasar untuk eksekusi di komputer lokal
 ├── train_colab.ipynb   # Jupyter Notebook training untuk Google Colab
-├── TEMPLATE_LAPORAN.md # Kerangka laporan; isinya disalin ke README.md repo-mu
+├── TEMPLATE_LAPORAN.md # Kerangka laporan; isinya disalin ke README.md repository peserta
 └── README.md           # Dokumentasi dan panduan proyek
 ```
 
 ---
 
-## Download / Clone Repository
+## Membuat Repository Peserta
 
-Jangan kerjakan langsung di repository ini. Buat repository-mu sendiri dulu:
+Pengerjaan tidak dilakukan langsung di repository ini. Setiap peserta wajib membuat repository sendiri dengan langkah berikut:
 
-1. Klik **Use this template → Create a new repository** di halaman ini.
-2. Beri nama `FP_<NamaLengkap>_<NRP>` dan pilih **Public**.
-3. Download repository-mu lewat **Code → Download ZIP**, atau clone:
+1. Klik **Use this template → Create a new repository** pada halaman ini.
+2. Beri nama repository `FP_<NamaLengkap>_<NRP>` dan pilih visibilitas **Public**.
+3. Unduh repository tersebut melalui **Code → Download ZIP**, atau clone menggunakan git (ganti `<username>` dengan username GitHub peserta):
 
 ```bash
 git clone https://github.com/<username>/FP_<NamaLengkap>_<NRP>.git
@@ -66,23 +66,23 @@ cd FP_<NamaLengkap>_<NRP>
 
 ## Persiapan Konfigurasi Roboflow
 
-Sebelum menjalankan training, siapkan konfigurasi dataset dari Roboflow:
+Sebelum training dijalankan, konfigurasi dataset Roboflow disiapkan dengan langkah berikut:
 
-1. Buka dataset kamu di [Roboflow](https://app.roboflow.com).
-2. Perhatikan URL dataset: `app.roboflow.com/<workspace>/<project>/<version>` atau buka menu **Download Dataset → YOLOv8 → Show download code**.
-3. Dapatkan **Roboflow API Key** dari menu: [https://app.roboflow.com/settings/api](https://app.roboflow.com/settings/api).
+1. Buka dataset di [Roboflow](https://app.roboflow.com).
+2. Catat workspace, project, dan nomor version dari URL dataset (`app.roboflow.com/<workspace>/<project>/<version>`) atau dari menu **Download Dataset → YOLOv8 → Show download code**.
+3. Ambil **Roboflow API Key** dari halaman [https://app.roboflow.com/settings/api](https://app.roboflow.com/settings/api).
 
-Sesuaikan nilai variabel konfigurasi di [`train.py`](train.py) atau cell **4. Konfigurasi** di notebook:
+Nilai variabel konfigurasi disesuaikan di [`train.py`](train.py) atau cell **4. Konfigurasi** di notebook:
 
 ```python
-ROBOFLOW_WORKSPACE = "nama-workspace"  # Ganti dengan workspace-mu
-ROBOFLOW_PROJECT   = "nama-project"    # Ganti dengan project-mu
+ROBOFLOW_WORKSPACE = "nama-workspace"  # Nama workspace Roboflow
+ROBOFLOW_PROJECT   = "nama-project"    # Nama project Roboflow
 ROBOFLOW_VERSION   = 1                 # Nomor versi dataset
 MODEL              = "yolov8n.pt"      # Pilihan: yolov8n.pt atau yolov8s.pt
 ```
 
 > [!WARNING]
-> **Keamanan Kredensial**: JANGAN PERNAH menuliskan API key langsung di dalam file kode (`train.py`) atau notebook (`train_colab.ipynb`), terutama jika kamu mengunggah atau membagikan repository ini secara publik. Gunakan Environment Variable atau Colab Secrets.
+> **Keamanan Kredensial**: API key **dilarang** dituliskan langsung di file kode (`train.py`) maupun notebook (`train_colab.ipynb`), karena repository peserta berstatus Public. API key disimpan melalui Environment Variable atau Colab Secrets.
 
 ---
 
@@ -90,11 +90,11 @@ MODEL              = "yolov8n.pt"      # Pilihan: yolov8n.pt atau yolov8s.pt
 
 ### Opsi A: Google Colab (Direkomendasikan)
 
-1. Buka [https://colab.research.google.com/](https://colab.research.google.com/), pilih tab **Upload**, lalu upload `train_colab.ipynb` dari repository-mu. Badge **Open in Colab** di atas hanya membuka notebook asli milik panitia, bukan versi yang sudah kamu kembangkan.
-2. Pastikan GPU aktif: menu **Runtime → Change runtime type → T4 GPU → Save**.
-3. Masukkan `ROBOFLOW_API_KEY` saat diminta, atau simpan di fitur **Secrets (ikon kunci)** Colab dengan nama `ROBOFLOW_API_KEY`.
-4. Jalankan cell secara berurutan (**Shift + Enter**) dari langkah 1 sampai langkah 10.
-5. Di akhir sesi, cell nomor 10 akan otomatis mengompres folder output menjadi `runs.zip` dan mengunduh `best.pt` serta grafik hasil ke komputermu.
+1. Buka [https://colab.research.google.com/](https://colab.research.google.com/), pilih tab **Upload**, lalu unggah `train_colab.ipynb` dari repository peserta. Badge **Open in Colab** di atas hanya membuka notebook asli milik panitia, bukan versi yang telah dikembangkan peserta.
+2. Aktifkan GPU melalui menu **Runtime → Change runtime type → T4 GPU → Save**.
+3. Simpan API key di fitur **Secrets (ikon kunci)** Colab dengan nama `ROBOFLOW_API_KEY`, atau masukkan API key saat diminta oleh notebook.
+4. Jalankan seluruh cell secara berurutan (**Shift + Enter**) dari langkah 1 sampai langkah 10.
+5. Cell nomor 10 mengompres folder output menjadi `runs.zip` dan mengunduh `best.pt` serta grafik hasil ke komputer lokal. Cell ini wajib dijalankan sebelum sesi Colab berakhir.
 
 ---
 
@@ -108,7 +108,7 @@ MODEL              = "yolov8n.pt"      # Pilihan: yolov8n.pt atau yolov8s.pt
 python -m venv .venv
 .venv\Scripts\Activate.ps1
 
-# 2. Jika laptop memiliki GPU NVIDIA, instal PyTorch versi CUDA terlebih dahulu.
+# 2. Apabila laptop memiliki GPU NVIDIA, instal PyTorch versi CUDA terlebih dahulu.
 #    GTX 9xx/10xx: cu126. GTX 16xx, RTX 20xx-50xx: cu132 (lihat tabel di guidebook).
 pip install torch torchvision --index-url https://download.pytorch.org/whl/cu132
 
@@ -116,7 +116,7 @@ pip install torch torchvision --index-url https://download.pytorch.org/whl/cu132
 pip install -r requirements.txt
 ```
 
-Kalau aktivasi venv ditolak karena *execution policy*, jalankan dulu `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass` di jendela PowerShell yang sama.
+Apabila aktivasi venv ditolak karena *execution policy*, jalankan terlebih dahulu `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass` pada jendela PowerShell yang sama.
 
 **Linux / macOS / WSL (Bash):**
 ```bash
@@ -132,13 +132,13 @@ pip install -r requirements.txt
 
 **Windows (PowerShell):**
 ```powershell
-$env:ROBOFLOW_API_KEY="API_KEY_KAMU"
+$env:ROBOFLOW_API_KEY="API_KEY_ROBOFLOW"
 python train.py
 ```
 
 **Linux / macOS / WSL (Bash):**
 ```bash
-export ROBOFLOW_API_KEY="API_KEY_KAMU"
+export ROBOFLOW_API_KEY="API_KEY_ROBOFLOW"
 python train.py
 ```
 
@@ -146,7 +146,7 @@ python train.py
 
 ## Struktur Output Training
 
-Hasil proses training akan tersimpan di dalam folder `runs/detect/train/` (atau `train2/`, `train3/`, dst.):
+Hasil training tersimpan di folder `runs/detect/train/` (atau `train2/`, `train3/`, dst.):
 
 - `weights/best.pt`: Bobot model dengan performa validation mAP tertinggi. File ini yang digunakan untuk pengujian dan inferensi final.
 - `weights/last.pt`: Bobot model pada epoch terakhir training.
@@ -158,17 +158,17 @@ Hasil proses training akan tersimpan di dalam folder `runs/detect/train/` (atau 
 
 ## Panduan Pengembangan Kode
 
-Kode starter ini sengaja dibuat sederhana. Batasan yang tetap berlaku sesuai aturan oprec:
+Kode dasar ini sengaja dibuat sederhana dan wajib dikembangkan oleh peserta. Batasan yang tetap berlaku:
 - Arsitektur model: **YOLOv8n** atau **YOLOv8s** (pre-trained).
 - Resolusi input gambar: **`imgsz=640`**.
 
 ### Contoh Arah Pengembangan:
-1. **Hyperparameter Tuning**: Eksplorasi nilai `epochs`, `batch` (16, 8, 4), `lr0` (learning rate awal), `optimizer` (`AdamW`, `SGD`), dan `patience` (early stopping).
-2. **Augmentasi Data**: Uji kombinasi parameter augmentasi Ultralytics seperti `hsv_h`, `hsv_s`, `hsv_v`, `degrees`, `fliplr`, `mosaic`, atau `mixup`.
-3. **Eksperimen Terukur**: Catat dan bandingkan beberapa skenario percobaan dalam satu tabel perbandingan mAP.
-4. **Skrip Inferensi Demo**: Buat skrip inferensi tambahan (`predict.py`) untuk menguji deteksi pada foto baru, file video, atau webcam langsung (dapat dipakai untuk membuat video rekaman `demo.mp4`).
-5. **Analisis Hasil**: Tampilkan contoh gambar deteksi, evaluasi bagian yang mengalami *false positive* atau *false negative*, dan jelaskan bagaimana kamu mengatasinya.
-6. **Kerapian Kode & Ekspor**: Implementasikan `argparse` / config YAML untuk konfigurasi modular, atau ekspor model ke format ONNX (`model.export(format="onnx")`).
+1. **Hyperparameter Tuning**: eksplorasi nilai `epochs`, `batch` (16, 8, 4), `lr0` (learning rate awal), `optimizer` (`AdamW`, `SGD`), dan `patience` (early stopping).
+2. **Augmentasi Data**: uji kombinasi parameter augmentasi Ultralytics seperti `hsv_h`, `hsv_s`, `hsv_v`, `degrees`, `fliplr`, `mosaic`, atau `mixup`.
+3. **Eksperimen Terukur**: pencatatan dan perbandingan beberapa skenario percobaan dalam satu tabel perbandingan mAP.
+4. **Skrip Inferensi Demo**: pembuatan skrip inferensi tambahan (`predict.py`) untuk menguji deteksi pada foto baru, file video, atau webcam langsung (dapat digunakan untuk membuat video demo).
+5. **Analisis Hasil**: penyajian contoh gambar deteksi, evaluasi kasus *false positive* atau *false negative*, beserta penjelasan cara penanganannya.
+6. **Kerapian Kode & Ekspor**: implementasi `argparse` / config YAML untuk konfigurasi modular, atau ekspor model ke format ONNX (`model.export(format="onnx")`).
 
 > Referensi lengkap parameter training Ultralytics: [Ultralytics Train Documentation](https://docs.ultralytics.com/modes/train/)
 
@@ -176,10 +176,11 @@ Kode starter ini sengaja dibuat sederhana. Batasan yang tetap berlaku sesuai atu
 
 ## Cara Pengumpulan
 
-1. Kerjakan semuanya di repository-mu sendiri hasil **Use this template** (Public).
-2. Ganti seluruh isi `README.md` di repository-mu dengan isi [`TEMPLATE_LAPORAN.md`](TEMPLATE_LAPORAN.md), lalu isi tiap bagiannya. File `TEMPLATE_LAPORAN.md` boleh dihapus setelahnya.
-3. Upload ke repository: kode yang sudah dikembangkan, `best.pt`, dan folder `grafik/` (`results.png`, `results.csv`, `confusion_matrix.png`, `BoxPR_curve.png` dari `runs/detect/train/`). Lewat web: **Add file → Upload files** (maks. 25 MB per file).
-4. Upload video demo (30–60 detik) ke Google Drive dengan akses **Anyone with the link → Viewer**. Video tidak di-upload ke repository.
-5. Isi Google Form pengumpulan dengan link repository GitHub, link video demo, dan Project ID Roboflow.
+1. Seluruh pekerjaan dikerjakan dan dikumpulkan di repository peserta hasil **Use this template** (Public).
+2. Seluruh isi `README.md` di repository peserta diganti dengan isi [`TEMPLATE_LAPORAN.md`](TEMPLATE_LAPORAN.md), kemudian setiap bagiannya diisi. File `TEMPLATE_LAPORAN.md` boleh dihapus setelahnya.
+3. Repository wajib berisi kode yang telah dikembangkan, `best.pt`, dan folder `grafik/` (`results.png`, `results.csv`, `confusion_matrix.png`, `BoxPR_curve.png` dari `runs/detect/train/`). Pengunggahan melalui web menggunakan **Add file → Upload files** (maks. 25 MB per file).
+4. Video demo (30–60 detik) diunggah ke Google Drive dengan akses **Anyone with the link → Viewer**. Video tidak diunggah ke repository.
+5. Google Form pengumpulan diisi dengan link repository GitHub, link video demo, dan Project ID Roboflow.
+6. Repository tidak boleh diubah setelah Google Form terkirim.
 
-Detail lengkap dan checklist ada di **Guidebook Final Project Oprec PENSHIP**.
+Ketentuan lengkap dan daftar periksa tercantum pada **Guidebook Final Project Oprec PENSHIP**.

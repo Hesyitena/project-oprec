@@ -2,33 +2,33 @@
 Kode training dasar - Final Project Oprec PENSHIP
 
 Alur:
-  1. Download dataset dari project Roboflow-mu (format YOLOv8).
-     Kalau folder dataset/ sudah berisi data.yaml, download dilewati.
+  1. Download dataset dari project Roboflow peserta (format YOLOv8).
+     Apabila folder dataset/ sudah berisi data.yaml, download dilewati.
   2. Training YOLOv8.
   3. Evaluasi model terbaik (best.pt) di split validation.
 
 Persiapan:
   1. Isi ROBOFLOW_WORKSPACE, ROBOFLOW_PROJECT, dan ROBOFLOW_VERSION di bagian
-     KONFIGURASI. Ketiganya ada di URL dataset-mu:
+     KONFIGURASI. Ketiganya tertera pada URL dataset:
          app.roboflow.com/<workspace>/<project>/<version>
-     atau di potongan kode saat Download Dataset -> format YOLOv8 -> Show download code.
-  2. Set API key Roboflow sebagai environment variable. JANGAN tulis API key
-     di file ini, karena file ini ikut dikumpulkan.
+     atau pada potongan kode di menu Download Dataset -> format YOLOv8 -> Show download code.
+  2. Set API key Roboflow sebagai environment variable. API key DILARANG
+     dituliskan di file ini, karena file ini ikut dikumpulkan.
 
-Menjalankan (ganti API_KEY_KAMU dengan API key-mu):
+Menjalankan (ganti API_KEY_ROBOFLOW dengan API key Roboflow peserta):
   Windows (PowerShell):
       pip install -r requirements.txt
-      $env:ROBOFLOW_API_KEY="API_KEY_KAMU"
+      $env:ROBOFLOW_API_KEY="API_KEY_ROBOFLOW"
       python train.py
 
   Linux / WSL / macOS:
       pip install -r requirements.txt
-      export ROBOFLOW_API_KEY="API_KEY_KAMU"
+      export ROBOFLOW_API_KEY="API_KEY_ROBOFLOW"
       python train.py
 
-Pakai Google Colab? Gunakan train_colab.ipynb.
+Untuk training di Google Colab, gunakan train_colab.ipynb.
 
-Kode ini sengaja dibuat sangat dasar dan WAJIB kamu kembangkan lagi.
+Kode ini sengaja dibuat sangat dasar dan WAJIB dikembangkan oleh peserta.
 Contoh arah pengembangan ada di README dan guidebook (bagian Pengembangan kode).
 """
 
@@ -39,8 +39,8 @@ from ultralytics import YOLO
 
 # ===================== KONFIGURASI =====================
 # Dataset (Roboflow)
-ROBOFLOW_WORKSPACE = "nama-workspace"  # ganti sesuai URL dataset-mu
-ROBOFLOW_PROJECT = "nama-project"      # ganti sesuai URL dataset-mu
+ROBOFLOW_WORKSPACE = "nama-workspace"  # sesuaikan dengan URL dataset
+ROBOFLOW_PROJECT = "nama-project"      # sesuaikan dengan URL dataset
 ROBOFLOW_VERSION = 1                   # nomor versi dataset di Roboflow
 DATASET_DIR = "dataset"                # folder tujuan download
 
@@ -48,13 +48,13 @@ DATASET_DIR = "dataset"                # folder tujuan download
 MODEL = "yolov8n.pt"  # pilihan: yolov8n.pt atau yolov8s.pt
 EPOCHS = 50
 IMGSZ = 640           # wajib 640, jangan diubah
-BATCH = 16            # turunkan ke 8 atau 4 kalau muncul error out of memory
+BATCH = 16            # turunkan ke 8 atau 4 apabila muncul error out of memory
 SEED = 0
 # =======================================================
 
 
 def get_dataset() -> Path:
-    """Kembalikan path data.yaml. Download dari Roboflow kalau belum ada."""
+    """Kembalikan path data.yaml. Download dari Roboflow apabila belum ada."""
     data_yaml = Path(DATASET_DIR) / "data.yaml"
     if data_yaml.exists():
         print(f"Dataset sudah ada, download dilewati: {data_yaml}")
@@ -66,7 +66,7 @@ def get_dataset() -> Path:
             "ROBOFLOW_API_KEY belum di-set. Lihat bagian 'Menjalankan' di atas file ini."
         )
 
-    from roboflow import Roboflow  # di-import di sini: tidak wajib kalau dataset sudah ada
+    from roboflow import Roboflow  # di-import di sini: tidak wajib apabila dataset sudah ada
 
     rf = Roboflow(api_key=api_key)
     version = rf.workspace(ROBOFLOW_WORKSPACE).project(ROBOFLOW_PROJECT).version(ROBOFLOW_VERSION)
@@ -84,7 +84,7 @@ def main():
     # Model pretrained (bobot di-download otomatis saat pertama kali dipakai)
     model = YOLO(MODEL)
 
-    # Training. GPU dipakai otomatis kalau tersedia, kalau tidak pakai CPU.
+    # Training. GPU digunakan otomatis apabila tersedia; jika tidak, CPU yang digunakan.
     model.train(
         data=str(data_path),
         epochs=EPOCHS,
