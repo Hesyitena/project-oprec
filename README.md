@@ -22,6 +22,8 @@ Repository ini berisi kode dasar untuk melatih model object detection **YOLOv8**
 - [Struktur Output Training](#struktur-output-training)
 - [Panduan Pengembangan Kode](#panduan-pengembangan-kode)
 - [Cara Pengumpulan](#cara-pengumpulan)
+  - [Struktur Repository Peserta](#struktur-repository-peserta)
+  - [Langkah Pengumpulan](#langkah-pengumpulan)
 
 ---
 
@@ -39,7 +41,7 @@ Repository ini berisi kode dasar untuk melatih model object detection **YOLOv8**
 ```text
 project-oprec/
 ├── .gitattributes      # Konfigurasi normalisasi Git (line endings & text diff)
-├── .gitignore          # Daftar file/folder yang diabaikan Git (dataset, checkpoint, runs, dll.)
+├── .gitignore          # Daftar file/folder yang diabaikan Git (dataset, runs, file .pt kecuali best.pt)
 ├── requirements.txt    # Daftar dependensi Python utama (ultralytics, roboflow)
 ├── train.py            # Skrip training dasar untuk eksekusi di komputer lokal
 ├── train_colab.ipynb   # Jupyter Notebook training untuk Google Colab
@@ -148,11 +150,12 @@ python train.py
 
 Hasil training tersimpan di folder `runs/detect/train/` (atau `train2/`, `train3/`, dst.):
 
-- `weights/best.pt`: Bobot model dengan performa validation mAP tertinggi. File ini yang digunakan untuk pengujian dan inferensi final.
+- `weights/best.pt`: Bobot model dengan performa validation mAP tertinggi. File ini yang dikumpulkan (disalin ke folder utama repository peserta) dan digunakan untuk pengujian.
 - `weights/last.pt`: Bobot model pada epoch terakhir training.
 - `results.png`: Grafik metrik performa (loss training/validation, precision, recall, mAP50, mAP50-95).
 - `confusion_matrix.png`: Matriks evaluasi prediksi per kelas (`bottle`, `laptop`, `pencil`).
 - `results.csv`: Catatan numerik metrik performa per epoch.
+- `BoxPR_curve.png`: Kurva precision–recall (pada versi Ultralytics lama bernama `PR_curve.png`).
 
 ---
 
@@ -176,11 +179,34 @@ Kode dasar ini sengaja dibuat sederhana dan wajib dikembangkan oleh peserta. Bat
 
 ## Cara Pengumpulan
 
-1. Seluruh pekerjaan dikerjakan dan dikumpulkan di repository peserta hasil **Use this template** (Public).
-2. Seluruh isi `README.md` di repository peserta diganti dengan isi [`TEMPLATE_LAPORAN.md`](TEMPLATE_LAPORAN.md), kemudian setiap bagiannya diisi. File `TEMPLATE_LAPORAN.md` boleh dihapus setelahnya.
-3. Repository wajib berisi kode yang telah dikembangkan (cukup salah satu: `train.py` beserta `requirements.txt`, atau `train_colab.ipynb`), `best.pt` yang disalin ke folder utama repository, dan folder `grafik/` (`results.png`, `results.csv`, `confusion_matrix.png`, `BoxPR_curve.png` dari `runs/detect/train/`). Folder `runs/` tidak diunggah. Pengunggahan melalui web menggunakan **Add file → Upload files** (maks. 25 MB per file).
-4. Video demo (30–60 detik) diunggah ke Google Drive dengan akses **Anyone with the link → Viewer**. Video tidak diunggah ke repository.
-5. Google Form pengumpulan (**[link, diisi panitia]**) diisi dengan link repository GitHub, link video demo, dan Project ID Roboflow.
-6. Repository tidak boleh diubah setelah Google Form terkirim.
+Seluruh pekerjaan dikerjakan dan dikumpulkan di repository peserta hasil **Use this template** (Public), bukan di repository ini.
+
+### Struktur Repository Peserta
+
+```text
+FP_<NamaLengkap>_<NRP>/
+├── train.py atau train_colab.ipynb   # salah satu, yang telah dikembangkan
+├── requirements.txt                  # wajib apabila menggunakan train.py
+├── ...                               # kode tambahan (apabila ada)
+├── best.pt                           # model terbaik, di folder utama
+├── grafik/                           # grafik hasil training
+└── README.md                         # laporan (dari TEMPLATE_LAPORAN.md)
+```
+
+- **Kode:** cukup salah satu, sesuai cara training yang digunakan: `train.py` (training lokal) atau `train_colab.ipynb` (Google Colab). File kode yang tidak digunakan boleh dihapus. `requirements.txt` wajib disertakan apabila menggunakan `train.py`, termasuk package tambahan yang digunakan.
+- **best.pt:** disalin dari `runs/detect/train/weights/best.pt` ke folder utama repository (sejajar dengan `README.md`). Apabila training dijalankan lebih dari sekali, gunakan folder training terakhir (`train2`, `train3`, dst.). File `.gitignore` bawaan sudah mengizinkan `best.pt` di folder utama.
+- **grafik/:** berisi `results.png`, `results.csv`, `confusion_matrix.png`, dan `BoxPR_curve.png` dari `runs/detect/train/` (pada versi Ultralytics lama bernama `PR_curve.png`).
+- **README.md:** seluruh isinya diganti dengan isi [`TEMPLATE_LAPORAN.md`](TEMPLATE_LAPORAN.md), kemudian setiap bagiannya diisi. File `TEMPLATE_LAPORAN.md` boleh dihapus setelahnya.
+- **Tidak diunggah:** dataset, folder `runs/`, video demo, dan API key.
+
+Pengunggahan melalui web menggunakan **Add file → Upload files** pada halaman repository (maks. 25 MB per file; `best.pt` YOLOv8n ±6 MB, YOLOv8s ±22 MB), atau melalui git (`git add`, `git commit`, `git push`).
+
+### Langkah Pengumpulan
+
+1. Lengkapi repository peserta sesuai struktur di atas dan pastikan visibilitasnya **Public**.
+2. Unggah video demo (30–60 detik) ke Google Drive dengan akses **Anyone with the link → Viewer**.
+3. Pastikan project Roboflow berstatus **Public**, lalu cantumkan Project ID (`workspace/project`) dan nomor version dataset di README.
+4. Isi Google Form pengumpulan (**[link, diisi panitia]**) dengan link repository GitHub, link video demo, Project ID Roboflow dan nomor version dataset, serta ukuran model yang digunakan (n/s).
+5. Repository tidak boleh diubah (commit atau upload) setelah Google Form terkirim.
 
 Ketentuan lengkap dan daftar periksa tercantum pada **Guidebook Final Project Oprec PENSHIP**.
