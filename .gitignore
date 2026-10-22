@@ -14,6 +14,7 @@ dataset/
 runs/
 runs.zip
 *.pt
+!best.pt          # model terbaik ikut dikumpulkan
 *.onnx
 *.engine
 *.torchscript

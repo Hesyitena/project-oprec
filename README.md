@@ -2,7 +2,7 @@
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Hesyitena/project-oprec/blob/main/train_colab.ipynb)
 ![YOLOv8](https://img.shields.io/badge/YOLOv8-Ultralytics-blue?logo=ultralytics)
-![Python](https://img.shields.io/badge/Python-3.8+-green?logo=python)
+![Python](https://img.shields.io/badge/Python-3.10+-green?logo=python)
 
 Repository ini berisi kode dasar untuk melatih model object detection **YOLOv8** yang mendeteksi 3 kelas objek: `bottle`, `laptop`, dan `pencil`.
 
@@ -29,8 +29,8 @@ Repository ini berisi kode dasar untuk melatih model object detection **YOLOv8**
 
 | File | Lingkungan | Rekomendasi Penggunaan |
 | --- | --- | --- |
-| [`train_colab.ipynb`](file:///c:/Users/VICTUS/Downloads/project-oprec/train_colab.ipynb) | Google Colab | **Sangat disarankan** jika laptop tidak memiliki GPU NVIDIA atau spesifikasi terbatas. Tersedia free GPU T4. |
-| [`train.py`](file:///c:/Users/VICTUS/Downloads/project-oprec/train.py) + [`requirements.txt`](file:///c:/Users/VICTUS/Downloads/project-oprec/requirements.txt) | Laptop / PC Lokal | Cocok jika memiliki GPU NVIDIA mandiri dengan driver CUDA aktif. |
+| [`train_colab.ipynb`](train_colab.ipynb) | Google Colab | **Sangat disarankan** jika laptop tidak memiliki GPU NVIDIA atau spesifikasi terbatas. Tersedia free GPU T4. |
+| [`train.py`](train.py) + [`requirements.txt`](requirements.txt) | Laptop / PC Lokal | Cocok jika memiliki GPU NVIDIA mandiri dengan driver CUDA aktif. |
 
 ---
 
@@ -43,6 +43,7 @@ project-oprec/
 ├── requirements.txt    # Daftar dependensi Python utama (ultralytics, roboflow)
 ├── train.py            # Skrip training dasar untuk eksekusi di komputer lokal
 ├── train_colab.ipynb   # Jupyter Notebook training untuk Google Colab
+├── TEMPLATE_LAPORAN.md # Kerangka laporan; isinya disalin ke README.md repo-mu
 └── README.md           # Dokumentasi dan panduan proyek
 ```
 
@@ -50,11 +51,15 @@ project-oprec/
 
 ## Download / Clone Repository
 
-Kamu bisa mengunduh repository ini lewat tombol **Code → Download ZIP** di halaman GitHub, atau menggunakan Git:
+Jangan kerjakan langsung di repository ini. Buat repository-mu sendiri dulu:
+
+1. Klik **Use this template → Create a new repository** di halaman ini.
+2. Beri nama `FP_<NamaLengkap>_<NRP>` dan pilih **Public**.
+3. Download repository-mu lewat **Code → Download ZIP**, atau clone:
 
 ```bash
-git clone https://github.com/Hesyitena/project-oprec.git
-cd project-oprec
+git clone https://github.com/<username>/FP_<NamaLengkap>_<NRP>.git
+cd FP_<NamaLengkap>_<NRP>
 ```
 
 ---
@@ -67,7 +72,7 @@ Sebelum menjalankan training, siapkan konfigurasi dataset dari Roboflow:
 2. Perhatikan URL dataset: `app.roboflow.com/<workspace>/<project>/<version>` atau buka menu **Download Dataset → YOLOv8 → Show download code**.
 3. Dapatkan **Roboflow API Key** dari menu: [https://app.roboflow.com/settings/api](https://app.roboflow.com/settings/api).
 
-Sesuaikan nilai variabel konfigurasi di [`train.py`](file:///c:/Users/VICTUS/Downloads/project-oprec/train.py) atau cell **4. Konfigurasi** di notebook:
+Sesuaikan nilai variabel konfigurasi di [`train.py`](train.py) atau cell **4. Konfigurasi** di notebook:
 
 ```python
 ROBOFLOW_WORKSPACE = "nama-workspace"  # Ganti dengan workspace-mu
@@ -85,8 +90,7 @@ MODEL              = "yolov8n.pt"      # Pilihan: yolov8n.pt atau yolov8s.pt
 
 ### Opsi A: Google Colab (Direkomendasikan)
 
-1. Buka notebook langsung dengan mengklik badge berikut:  
-   [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Hesyitena/project-oprec/blob/main/train_colab.ipynb)
+1. Buka [https://colab.research.google.com/](https://colab.research.google.com/), pilih tab **Upload**, lalu upload `train_colab.ipynb` dari repository-mu. Badge **Open in Colab** di atas hanya membuka notebook asli milik panitia, bukan versi yang sudah kamu kembangkan.
 2. Pastikan GPU aktif: menu **Runtime → Change runtime type → T4 GPU → Save**.
 3. Masukkan `ROBOFLOW_API_KEY` saat diminta, atau simpan di fitur **Secrets (ikon kunci)** Colab dengan nama `ROBOFLOW_API_KEY`.
 4. Jalankan cell secara berurutan (**Shift + Enter**) dari langkah 1 sampai langkah 10.
@@ -104,12 +108,15 @@ MODEL              = "yolov8n.pt"      # Pilihan: yolov8n.pt atau yolov8s.pt
 python -m venv .venv
 .venv\Scripts\Activate.ps1
 
-# 2. Jika laptop memiliki GPU NVIDIA, instal PyTorch versi CUDA terlebih dahulu:
-pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
+# 2. Jika laptop memiliki GPU NVIDIA, instal PyTorch versi CUDA terlebih dahulu.
+#    GTX 9xx/10xx: cu126. GTX 16xx, RTX 20xx-50xx: cu132 (lihat tabel di guidebook).
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cu132
 
 # 3. Instal dependensi proyek
 pip install -r requirements.txt
 ```
+
+Kalau aktivasi venv ditolak karena *execution policy*, jalankan dulu `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass` di jendela PowerShell yang sama.
 
 **Linux / macOS / WSL (Bash):**
 ```bash
@@ -167,31 +174,12 @@ Kode starter ini sengaja dibuat sederhana. Batasan yang tetap berlaku sesuai atu
 
 ---
 
-## Template Laporan Pengumpulan
+## Cara Pengumpulan
 
-*(Salin atau isi bagian ini saat mengumpulkan final project)*
+1. Kerjakan semuanya di repository-mu sendiri hasil **Use this template** (Public).
+2. Ganti seluruh isi `README.md` di repository-mu dengan isi [`TEMPLATE_LAPORAN.md`](TEMPLATE_LAPORAN.md), lalu isi tiap bagiannya. File `TEMPLATE_LAPORAN.md` boleh dihapus setelahnya.
+3. Upload ke repository: kode yang sudah dikembangkan, `best.pt`, dan folder `grafik/` (`results.png`, `results.csv`, `confusion_matrix.png`, `BoxPR_curve.png` dari `runs/detect/train/`). Lewat web: **Add file → Upload files** (maks. 25 MB per file).
+4. Upload video demo (30–60 detik) ke Google Drive dengan akses **Anyone with the link → Viewer**. Video tidak di-upload ke repository.
+5. Isi Google Form pengumpulan dengan link repository GitHub, link video demo, dan Project ID Roboflow.
 
-### Identitas
-- **Nama**: [Nama Lengkap]
-- **NRP / NIM**: [NRP / NIM]
-- **Departemen / Kampus**: [Departemen / Kampus]
-
-### Ringkasan Pengembangan
-Jelaskan perubahan apa saja yang kamu lakukan pada pipeline data, konfigurasi training, augmentasi, atau kode:
-1. ...
-2. ...
-
-### Tabel Hasil Eksperimen
-
-| No | Eksperimen / Skenario | Epochs | Batch | Optimizer | mAP50 | mAP50-95 | Keterangan / Analisis |
-|:--:|:---|:---:|:---:|:---:|:---:|:---:|:---|
-| 0 | Baseline (Default Starter) | 50 | 16 | Auto | ... | ... | Titik acuan awal |
-| 1 | Eksperimen 1: ... | ... | ... | ... | ... | ... | ... |
-| 2 | Eksperimen 2: ... | ... | ... | ... | ... | ... | ... |
-
-### Analisis & Evaluasi
-- **Analisis Performa**: Mengapa skenario terbaik memberikan hasil lebih tinggi?
-- **Kendala & Solusi**: Apakah ada kendala deteksi (misal: pensil berukuran kecil atau botol transparan)? Bagaimana solusinya?
-
-### Link Video Demo
-- Tautan rekaman demonstrasi model (`demo.mp4` / Google Drive / YouTube): [Link Video]
+Detail lengkap dan checklist ada di **Guidebook Final Project Oprec PENSHIP**.
