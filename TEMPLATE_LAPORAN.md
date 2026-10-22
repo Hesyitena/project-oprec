@@ -5,8 +5,7 @@
 - NRP: <NRP>
 - Program studi: <Program studi>
 
-## Link
-- Video demo (Google Drive): <link>
+## Project Roboflow
 - Project ID Roboflow: <workspace/project>, version <nomor>
 - Link Roboflow Universe: https://universe.roboflow.com/<workspace>/<project>
 
